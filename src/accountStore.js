@@ -19,6 +19,7 @@ function toAccount(row) {
     label: row.label,
     username: row.username,
     password: row.password,
+    secret_key: row.secret_key || "",
     enabled: Boolean(row.enabled)
   };
 }
@@ -105,10 +106,20 @@ function getDb() {
       label TEXT NOT NULL,
       username TEXT NOT NULL,
       password TEXT NOT NULL,
+      secret_key TEXT,
       enabled INTEGER NOT NULL DEFAULT 1,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+  db.exec(`
+    PRAGMA table_info(accounts);
+  `);
+
+  try {
+    db.exec(`ALTER TABLE accounts ADD COLUMN secret_key TEXT;`);
+  } catch {
+  }
 
   migrateFromMarkdownIfNeeded(db);
   return db;
@@ -118,6 +129,7 @@ function validateAccount(input, index) {
   const label = String(input.label || "").trim();
   const username = String(input.username || "").trim();
   const password = String(input.password || "").trim();
+  const secret_key = String(input.secret_key || "").trim();
   const enabled = Boolean(input.enabled);
 
   if (!label) {
@@ -137,6 +149,7 @@ function validateAccount(input, index) {
     label,
     username,
     password,
+    secret_key,
     enabled
   };
 }
@@ -144,7 +157,7 @@ function validateAccount(input, index) {
 export async function loadAccounts() {
   const database = getDb();
   const rows = database
-    .prepare("SELECT id, label, username, password, enabled FROM accounts ORDER BY created_at ASC")
+    .prepare("SELECT id, label, username, password, secret_key, enabled FROM accounts ORDER BY created_at ASC")
     .all();
   return rows.map(toAccount);
 }
@@ -167,7 +180,7 @@ export async function replaceAccounts(accountsInput) {
   }
 
   const insertStmt = database.prepare(
-    "INSERT INTO accounts (id, label, username, password, enabled) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO accounts (id, label, username, password, secret_key, enabled) VALUES (?, ?, ?, ?, ?, ?)"
   );
 
   database.exec("BEGIN");
@@ -179,6 +192,7 @@ export async function replaceAccounts(accountsInput) {
         account.label,
         account.username,
         account.password,
+        account.secret_key || null,
         account.enabled ? 1 : 0
       );
     }

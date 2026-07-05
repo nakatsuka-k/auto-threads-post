@@ -19,16 +19,17 @@
 
       <section class="panel">
         <h2>アカウント管理</h2>
-        <p class="hint">保存先はローカルDB（data/accounts.db）です。</p>
+        <p class="hint">保存先はローカルDB（data/accounts.db）です。セッション情報は data/sessions/ に保存されます。</p>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>enabled</th>
-                <th>label</th>
                 <th>username / ID</th>
                 <th>password</th>
+                <th>secret key (TOTP)</th>
+                <th>session</th>
                 <th></th>
               </tr>
             </thead>
@@ -40,6 +41,20 @@
           <button id="addAccountRow" type="button">行を追加</button>
           <button id="saveAccounts" type="button">アカウントを保存</button>
           <button id="reloadAccounts" type="button">再読込</button>
+          <button id="importCSV" type="button">CSV インポート</button>
+          <button id="exportTemplateCSV" type="button">テンプレート</button>
+          <button id="exportDataCSV" type="button">エクスポート</button>
+          <button id="deleteAllAccounts" type="button" class="danger">全削除</button>
+        </div>
+
+        <input id="csvFileInput" type="file" accept=".csv" style="display: none;" />
+
+        <div class="info-box">
+          <strong>2FA対応:</strong> 
+          <ul>
+            <li>TOTP 2FA有効: 秘密鍵（Base32形式、例：ILOUNT6ZLNFDXN3EYB5Q4JMOXVQMZH7E）をテーブルに入力すると、ログイン時に認証コードが自動生成・入力されます。</li>
+            <li>秘密鍵なし: ヘッドレス実行チェック ✗ で実行すると、ブラウザ画面が表示され、手動で2FA入力できます。セッション自動保存後は以降スキップ可能。</li>
+          </ul>
         </div>
       </section>
 
@@ -67,8 +82,13 @@
         <input id="spreadMinutes" type="number" min="0" value="0" />
 
         <label class="inline">
-          <input id="headless" type="checkbox" />
+          <input id="headless" type="checkbox" checked />
           ヘッドレス実行（画面非表示）
+        </label>
+
+        <label class="inline">
+          <input id="resetSessionsBeforeRun" type="checkbox" />
+          ログインセッションをリセットする
         </label>
 
         <div class="actions">
@@ -77,6 +97,28 @@
       </section>
 
       <section class="panel">
+        <h2>進捗状況</h2>
+        <div id="jobStatus" class="job-status is-hidden">
+          <div class="job-status-head">
+            <div>
+              <p id="jobStatusLabel" class="job-status-label">待機中</p>
+              <strong id="jobStatusTitle">ジョブ未実行</strong>
+            </div>
+            <div class="job-status-head-right">
+              <span id="jobStatusPercent" class="job-status-percent">0%</span>
+              <button id="dismissJob" type="button" class="icon-button" aria-label="履歴を消す">×</button>
+            </div>
+          </div>
+          <div class="actions job-status-actions">
+            <button id="openJobInspector" type="button" class="secondary">作業ブラウザを開く</button>
+            <button id="cancelJob" type="button" class="danger">ジョブをキャンセル</button>
+          </div>
+          <div class="progress-track progress-track-lg">
+            <div id="jobProgressFill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div id="jobAccountsProgress" class="job-accounts-progress"></div>
+        </div>
+
         <h2>実行ログ</h2>
         <pre id="logArea">準備完了</pre>
       </section>

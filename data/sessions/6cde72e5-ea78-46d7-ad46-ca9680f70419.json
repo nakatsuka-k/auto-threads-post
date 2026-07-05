@@ -1,0 +1,129 @@
+{
+  "accountId": "6cde72e5-ea78-46d7-ad46-ca9680f70419",
+  "cookies": [
+    {
+      "name": "ig_did",
+      "value": "9658E2B3-0E95-4DDD-891D-B671E8EF2263",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1814803490.377185,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpr",
+      "value": "1",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1783872344,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mid",
+      "value": "akqApAAEAAHp-XXDsNGiRhzComEB",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1817827495.389886,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Host-next-auth.csrf-token",
+      "value": "74fef673e2344bf2e84b4b8aaaf78edecb2ea15107567d928856d32237026fee%7C4ad4c2b2e8fd7e929645519381386873cd80026ba9ce0b3c929050db2aeb9db3",
+      "domain": "trend-sns.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-next-auth.callback-url",
+      "value": "https%3A%2F%2Ftrend-sns.com",
+      "domain": "trend-sns.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "csrftoken",
+      "value": "AJN8a3tGwoukwZcQEHGL0A4PkrqxEyIK",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1817827567.282388,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ds_user_id",
+      "value": "23396501132",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1791043567.282435,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sessionid",
+      "value": "23396501132%3ABo1ZxcLQqqYfyH%3A15%3AAYhR_Mb6ERlYdh6DMq6UPmjJ9eyehVx0Ehwt3g2LpA",
+      "domain": ".threads.com",
+      "path": "/",
+      "expires": 1814803509.691347,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "localStorage": [
+    {
+      "origin": "https://www.threads.com/",
+      "localStorage": [
+        {
+          "name": "barcelona_messaging_tooltip_dismissed",
+          "value": "true"
+        },
+        {
+          "name": "barcelona_snippets_upsell_count",
+          "value": "1"
+        },
+        {
+          "name": "hb_timestamp",
+          "value": "1783267491036"
+        },
+        {
+          "name": "_oz_bandwidthAndTTFBSamples",
+          "value": "{\"b\":[],\"t\":[]}"
+        },
+        {
+          "name": "signal_flush_timestamp",
+          "value": "1783267491049"
+        },
+        {
+          "name": "multiple_drafts_tooltip_shown",
+          "value": "true"
+        },
+        {
+          "name": "Session",
+          "value": "ykggdm:1783267605000"
+        },
+        {
+          "name": "_oz_bandwidthEstimate",
+          "value": "10000000"
+        },
+        {
+          "name": "banzai:last_storage_flush",
+          "value": "1783267492037.9001"
+        }
+      ]
+    }
+  ],
+  "savedAt": "2026-07-05T16:06:10.100Z"
+}

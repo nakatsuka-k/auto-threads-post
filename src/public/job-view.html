@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作業ブラウザビュー</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f0efe9;
+        --panel: #fffdf7;
+        --ink: #1f2221;
+        --muted: #4a5552;
+        --accent: #db5a2a;
+        --line: #d7d2c6;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Hiragino Sans", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+      }
+
+      main {
+        width: min(1100px, 94vw);
+        margin: 28px auto 40px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 12px 24px rgba(28, 38, 35, 0.08);
+      }
+
+      .meta {
+        display: grid;
+        gap: 8px;
+      }
+
+      .label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .url {
+        word-break: break-all;
+        color: var(--accent);
+      }
+
+      img {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #f7f5ef;
+      }
+
+      .empty {
+        padding: 32px;
+        text-align: center;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel meta">
+        <div>
+          <div class="label">ジョブ</div>
+          <strong id="jobId">-</strong>
+        </div>
+        <div>
+          <div class="label">状態</div>
+          <strong id="status">-</strong>
+        </div>
+        <div>
+          <div class="label">アカウント</div>
+          <strong id="account">-</strong>
+        </div>
+        <div>
+          <div class="label">URL</div>
+          <div id="url" class="url">-</div>
+        </div>
+        <div>
+          <div class="label">更新時刻</div>
+          <strong id="updatedAt">-</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div id="empty" class="empty">スクリーンショット待機中</div>
+        <img id="screenshot" alt="worker screenshot" hidden />
+      </section>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const jobId = params.get("jobId") || "";
+      const apiOriginParam = params.get("apiOrigin") || "";
+      const jobIdEl = document.getElementById("jobId");
+      const statusEl = document.getElementById("status");
+      const accountEl = document.getElementById("account");
+      const urlEl = document.getElementById("url");
+      const updatedAtEl = document.getElementById("updatedAt");
+      const screenshotEl = document.getElementById("screenshot");
+      const emptyEl = document.getElementById("empty");
+      let resolvedApiOrigin = "";
+
+      jobIdEl.textContent = jobId || "-";
+
+      async function readJsonFrom(url) {
+        const res = await fetch(url, { cache: "no-store" });
+        const contentType = res.headers.get("content-type") || "";
+        const raw = await res.text();
+
+        if (!contentType.includes("application/json")) {
+          throw new Error(`non-json:${res.status}:${url}:${raw.slice(0, 80)}`);
+        }
+
+        const payload = JSON.parse(raw);
+        if (!res.ok) {
+          throw new Error(payload.error || `inspect failed (${res.status})`);
+        }
+
+        return payload;
+      }
+
+      async function fetchInspectionPayload() {
+        const candidateOrigins = [];
+        const pushOrigin = (value) => {
+          if (!value) {
+            return;
+          }
+          if (!candidateOrigins.includes(value)) {
+            candidateOrigins.push(value);
+          }
+        };
+
+        pushOrigin(resolvedApiOrigin);
+        pushOrigin(apiOriginParam);
+        pushOrigin(window.location.origin);
+
+        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+          for (let port = 3000; port <= 3010; port += 1) {
+            pushOrigin(`${window.location.protocol}//${window.location.hostname}:${port}`);
+          }
+        }
+
+        let lastError = "";
+        for (const origin of candidateOrigins) {
+          try {
+            const payload = await readJsonFrom(`${origin}/api/jobs/${encodeURIComponent(jobId)}/inspect`);
+            resolvedApiOrigin = origin;
+            return payload;
+          } catch (error) {
+            lastError = error.message || String(error);
+          }
+        }
+
+        throw new Error(lastError || "inspect failed");
+      }
+
+      async function refresh() {
+        if (!jobId) {
+          emptyEl.textContent = "jobId がありません";
+          return;
+        }
+
+        try {
+          const payload = await fetchInspectionPayload();
+
+          const inspection = payload.inspection || {};
+          statusEl.textContent = payload.status || "-";
+          accountEl.textContent = inspection.account || inspection.username || "-";
+          urlEl.textContent = inspection.url || resolvedApiOrigin || "-";
+          updatedAtEl.textContent = inspection.updatedAt ? new Date(inspection.updatedAt).toLocaleString() : "-";
+
+          if (inspection.screenshotDataUrl) {
+            screenshotEl.src = inspection.screenshotDataUrl;
+            screenshotEl.hidden = false;
+            emptyEl.hidden = true;
+          } else {
+            screenshotEl.hidden = true;
+            emptyEl.hidden = false;
+            emptyEl.textContent = "スクリーンショット待機中";
+          }
+        } catch (error) {
+          emptyEl.hidden = false;
+          screenshotEl.hidden = true;
+          emptyEl.textContent = error.message.startsWith("non-json:")
+            ? "JSON ではなく HTML が返りました。別ポートのサーバを探索しましたが、この jobId は見つかりませんでした。最新の UI から開き直してください。"
+            : error.message;
+        }
+      }
+
+      refresh();
+      window.setInterval(refresh, 1500);
+    </script>
+  </body>
+</html>
