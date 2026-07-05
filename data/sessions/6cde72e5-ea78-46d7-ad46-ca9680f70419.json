@@ -3,10 +3,10 @@
   "cookies": [
     {
       "name": "ig_did",
-      "value": "9658E2B3-0E95-4DDD-891D-B671E8EF2263",
+      "value": "791DDCE2-63F3-4E20-A238-D70A44E40186",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1814803490.377185,
+      "expires": 1814804155.617899,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
@@ -16,24 +16,24 @@
       "value": "1",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1783872344,
+      "expires": 1783873041,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "mid",
-      "value": "akqApAAEAAHp-XXDsNGiRhzComEB",
+      "value": "akqDPAAEAAEEV6rPCAWtiKrtrYEb",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1817827495.389886,
+      "expires": 1817828161.29491,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
     },
     {
       "name": "__Host-next-auth.csrf-token",
-      "value": "74fef673e2344bf2e84b4b8aaaf78edecb2ea15107567d928856d32237026fee%7C4ad4c2b2e8fd7e929645519381386873cd80026ba9ce0b3c929050db2aeb9db3",
+      "value": "4bbdfc4287d9728b11166cc848654e4c9082836795fb83b19442ad2a7c505b44%7C8d11c5187f356bba0531d0a36b1e6d234c15bf0f3a4bad4c7f4221e7b4274c8e",
       "domain": "trend-sns.com",
       "path": "/",
       "expires": -1,
@@ -53,10 +53,10 @@
     },
     {
       "name": "csrftoken",
-      "value": "AJN8a3tGwoukwZcQEHGL0A4PkrqxEyIK",
+      "value": "BnQedrrvcXsDrvpQd0B2r5ggC8UNfrgN",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1817827567.282388,
+      "expires": 1817828248.185882,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -66,17 +66,17 @@
       "value": "23396501132",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1791043567.282435,
+      "expires": 1791044248.185925,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "sessionid",
-      "value": "23396501132%3ABo1ZxcLQqqYfyH%3A15%3AAYhR_Mb6ERlYdh6DMq6UPmjJ9eyehVx0Ehwt3g2LpA",
+      "value": "23396501132%3Ae3RsOMoeKvszyU%3A10%3AAYiOJm8nHAmsF4SA2hpwM9UK8f_4ocHkdb0qhL5ySg",
       "domain": ".threads.com",
       "path": "/",
-      "expires": 1814803509.691347,
+      "expires": 1814804176.120397,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
@@ -92,11 +92,11 @@
         },
         {
           "name": "barcelona_snippets_upsell_count",
-          "value": "1"
+          "value": "2"
         },
         {
           "name": "hb_timestamp",
-          "value": "1783267491036"
+          "value": "1783268156066"
         },
         {
           "name": "_oz_bandwidthAndTTFBSamples",
@@ -104,26 +104,22 @@
         },
         {
           "name": "signal_flush_timestamp",
-          "value": "1783267491049"
-        },
-        {
-          "name": "multiple_drafts_tooltip_shown",
-          "value": "true"
+          "value": "1783268156082"
         },
         {
           "name": "Session",
-          "value": "ykggdm:1783267605000"
+          "value": "58nreu:1783268282438"
         },
         {
           "name": "_oz_bandwidthEstimate",
-          "value": "10000000"
+          "value": "9400000"
         },
         {
           "name": "banzai:last_storage_flush",
-          "value": "1783267492037.9001"
+          "value": "1783268157019.7"
         }
       ]
     }
   ],
-  "savedAt": "2026-07-05T16:06:10.100Z"
+  "savedAt": "2026-07-05T16:17:29.064Z"
 }

@@ -40,10 +40,11 @@ const DESKTOP_CONTEXT_OPTIONS = {
   deviceScaleFactor: 1
 };
 
-const COMPOSER_OPEN_SETTLE_MS = 3200;
-const TEXT_ENTRY_SETTLE_MS = 2800;
-const PRE_SUBMIT_SETTLE_MS = 3500;
-const POST_SUBMIT_SETTLE_MS = 4500;
+const COMPOSER_OPEN_SETTLE_MS = 700;
+const TEXT_ENTRY_SETTLE_MS = 500;
+const PRE_SUBMIT_SETTLE_MS = 700;
+const POST_SUBMIT_SETTLE_MS = 800;
+const HOME_READY_TIMEOUT_MS = 2500;
 
 async function hasAnyVisibleField(page, selectors, timeoutPerSelector = 800) {
   for (const selector of selectors) {
@@ -1047,9 +1048,9 @@ async function ensureLoggedIn(page, account, headless, hasSavedSession = false, 
   await publishInspection(page, account, onInspection, "login_done");
 
   reportProgress(onProgress, account, "login_done", 35, "ホーム画面を確認");
-  const homeReady = await waitForThreadsHomeReady(page, 7000);
+  const homeReady = await waitForThreadsHomeReady(page, HOME_READY_TIMEOUT_MS);
   if (!homeReady) {
-    throw new Error(`Logged in but Threads home did not become ready for ${account.label}.`);
+    console.warn(`[Threads] Home ready check timed out for ${account.username}; continue with composer detection.`);
   }
 
   reportProgress(onProgress, account, "login_done", 40, "投稿導線を確認");
@@ -1939,8 +1940,6 @@ async function createPost(page, text, account, onProgress, onInspection, shouldC
     throw new Error("Post submit did not settle");
   }
 
-  await page.waitForTimeout(POST_SUBMIT_SETTLE_MS);
-
   const waitForPostedUrl = async (timeoutMs = 8000) => {
     const startedAt = Date.now();
     const username = normalizeUsername(account.username);
@@ -2036,8 +2035,11 @@ async function createPost(page, text, account, onProgress, onInspection, shouldC
     return "";
   };
 
+  await page.waitForTimeout(POST_SUBMIT_SETTLE_MS);
+  const postedUrl = await waitForPostedUrl(3500);
+
   return {
-    postUrl: buildThreadsProfileUrl(account.username)
+    postUrl: postedUrl || buildThreadsProfileUrl(account.username)
   };
 }
 
