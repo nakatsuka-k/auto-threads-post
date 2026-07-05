@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Threads Auto Post Console</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <p class="eyebrow">THREADS ORCHESTRATOR</p>
+        <h1>認証から投稿まで一括実行</h1>
+        <p class="lead">
+          ブラウザ上のテーブルで管理したアカウントに対して、指定投稿を単体または全体配信します。
+          全体配信では時間を分散して実行できます。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>アカウント管理</h2>
+        <p class="hint">保存先はローカルDB（data/accounts.db）です。</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>enabled</th>
+                <th>label</th>
+                <th>username / ID</th>
+                <th>password</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="accountsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="actions">
+          <button id="addAccountRow" type="button">行を追加</button>
+          <button id="saveAccounts" type="button">アカウントを保存</button>
+          <button id="reloadAccounts" type="button">再読込</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>投稿設定</h2>
+
+        <label for="postText">投稿本文</label>
+        <textarea id="postText" rows="5" placeholder="ここに投稿内容を入力"></textarea>
+
+        <div class="row">
+          <label class="inline">
+            <input type="radio" name="mode" value="single" checked />
+            指定アカウントに投稿
+          </label>
+          <label class="inline">
+            <input type="radio" name="mode" value="all" />
+            全アカウントに投稿（時間分散）
+          </label>
+        </div>
+
+        <label for="accountSelect">対象アカウント（single時）</label>
+        <select id="accountSelect" multiple size="6"></select>
+
+        <label for="spreadMinutes">分散時間（分）</label>
+        <input id="spreadMinutes" type="number" min="0" value="0" />
+
+        <label class="inline">
+          <input id="headless" type="checkbox" />
+          ヘッドレス実行（画面非表示）
+        </label>
+
+        <div class="actions">
+          <button id="submitPost" type="button">投稿を実行</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>実行ログ</h2>
+        <pre id="logArea">準備完了</pre>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

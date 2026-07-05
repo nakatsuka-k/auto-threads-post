@@ -1,0 +1,181 @@
+:root {
+  --bg: #f0efe9;
+  --panel: #fffdf7;
+  --ink: #1f2221;
+  --muted: #4a5552;
+  --accent: #db5a2a;
+  --line: #d7d2c6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Hiragino Sans", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 20%, #ffe8d8 0%, transparent 35%),
+    radial-gradient(circle at 80% 80%, #d3efe7 0%, transparent 40%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+.app {
+  width: min(960px, 92vw);
+  margin: 48px auto 64px;
+  display: grid;
+  gap: 20px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+}
+
+.eyebrow {
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.lead {
+  margin: 0;
+  color: var(--muted);
+  max-width: 70ch;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+  box-shadow: 0 12px 24px rgba(28, 38, 35, 0.08);
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ece8de;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background: #faf7ef;
+  font-size: 0.85rem;
+  color: #49514e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+td input[type="text"] {
+  min-width: 140px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+label {
+  font-size: 0.95rem;
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+textarea,
+select,
+input[type="number"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  font: inherit;
+  background: #fff;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font: inherit;
+}
+
+#submitPost {
+  background: var(--accent);
+  color: #fff;
+}
+
+#reloadAccounts {
+  background: #e4ece9;
+  color: #21312d;
+}
+
+#saveAccounts,
+#addAccountRow {
+  background: #21312d;
+  color: #f3f8f6;
+}
+
+button.danger {
+  background: #f3d6d4;
+  color: #7a1e1e;
+  padding: 8px 12px;
+}
+
+pre {
+  margin: 0;
+  min-height: 120px;
+  max-height: 320px;
+  overflow: auto;
+  background: #1f2422;
+  color: #d8fff1;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+@media (max-width: 700px) {
+  .app {
+    margin-top: 24px;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+}
